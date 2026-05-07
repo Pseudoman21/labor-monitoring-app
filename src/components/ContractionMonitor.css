@@ -148,7 +148,7 @@
 }
 
 .clock-label {
-  font-size: 11px;
+  font-size: 8px;
   letter-spacing: 4px;
   color: #00cc6666;
   margin-bottom: 8px;
@@ -157,7 +157,7 @@
 .clock-display {
   font-family: 'Orbitron', sans-serif;
   font-weight: 900;
-  font-size: clamp(33px, 6vw, 75px);
+  font-size: clamp(21px, 4vw, 25px);
   letter-spacing: 6px;
   color: #00ff88;
   text-shadow: 0 0 20px #00ff88aa, 0 0 40px #00ff8840;

@@ -211,7 +211,6 @@ export default function ContractionMonitor() {
 
       {/* Main clock */}
       <section className="clock-panel">
-        <div className="clock-label">CURRENT TIME</div>
         <div className="clock-display">{formatTime(now)}</div>
       </section>
 
