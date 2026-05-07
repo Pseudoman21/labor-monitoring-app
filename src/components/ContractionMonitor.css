@@ -145,7 +145,7 @@
 .clock-display {
   font-family: 'Orbitron', sans-serif;
   font-weight: 900;
-  font-size: clamp(42px, 8vw, 80px);
+  font-size: clamp(40px, 8vw, 75px);
   letter-spacing: 6px;
   color: #00ff88;
   text-shadow: 0 0 20px #00ff88aa, 0 0 40px #00ff8840;
