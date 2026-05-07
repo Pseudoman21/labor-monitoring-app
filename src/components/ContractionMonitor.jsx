@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import EcgLine from './EcgLine'
 import './ContractionMonitor.css'
 
 function exportLog(log) {
@@ -87,30 +88,20 @@ export default function ContractionMonitor() {
   const [log, setLog] = useState(loadLog)
   const [now, setNow] = useState(new Date())
   const [flash, setFlash] = useState(false)
-  const [sinceLastSec, setSinceLastSec] = useState(null)
   const [importStatus, setImportStatus] = useState(null) // 'ok' | 'error'
   const flashTimer = useRef(null)
   const importStatusTimer = useRef(null)
   const importInputRef = useRef(null)
 
-  // Clock tick
+  // Clock tick — sinceLastSec is derived from `now` so no separate interval needed
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000)
     return () => clearInterval(id)
   }, [])
 
-  // Time-since-last ticker
-  useEffect(() => {
-    if (log.length === 0) {
-      setSinceLastSec(null)
-      return
-    }
-    const last = log[0].timestamp
-    const update = () => setSinceLastSec(Math.floor((Date.now() - last.getTime()) / 1000))
-    update()
-    const id = setInterval(update, 1000)
-    return () => clearInterval(id)
-  }, [log])
+  const sinceLastSec = log.length > 0
+    ? Math.floor((now - log[0].timestamp) / 1000)
+    : null
 
   const recordContraction = useCallback(() => {
     const ts = new Date()
@@ -212,6 +203,11 @@ export default function ContractionMonitor() {
           </span>
         </div>
       </header>
+
+      {/* ECG lifeline */}
+      <section className="ecg-section">
+        <EcgLine color="#00ff88" height={76} />
+      </section>
 
       {/* Main clock */}
       <section className="clock-panel">

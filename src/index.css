@@ -6,15 +6,18 @@
   padding: 0;
 }
 
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
   background-color: #060a0f;
   color: #00ff88;
   font-family: 'Share Tech Mono', monospace;
-  min-height: 100vh;
-  overflow-x: hidden;
 }
 
 #root {
-  min-height: 100vh;
+  height: 100%;
   width: 100%;
 }

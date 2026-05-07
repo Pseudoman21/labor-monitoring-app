@@ -3,7 +3,7 @@
    ========================================================= */
 
 .monitor {
-  min-height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background: #060a0f;
@@ -129,12 +129,20 @@
   50% { opacity: 0.7; box-shadow: 0 0 14px #ff444470; }
 }
 
+/* ── ECG lifeline ── */
+.ecg-section {
+  flex-shrink: 0;
+  background: #04080d;
+  border-bottom: 1px solid #00ff8828;
+  overflow: hidden;
+}
+
 /* ── Clock panel ── */
 .clock-panel {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 28px 24px 20px;
+  padding: 15px 13px 15px;
   border-bottom: 1px solid #00ff8820;
   flex-shrink: 0;
 }
@@ -174,7 +182,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 12px;
+  padding: 12px 12px;
   border-right: 1px solid #00ff8820;
   gap: 4px;
 }
@@ -228,14 +236,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 36px 24px;
+  padding: 20px 24px;
   flex-shrink: 0;
 }
 
 .contraction-btn {
   position: relative;
-  width: clamp(200px, 40vw, 300px);
-  height: clamp(200px, 40vw, 300px);
+  width: clamp(180px, 40vw, 300px);
+  height: clamp(180px, 40vw, 300px);
   border-radius: 50%;
   border: 3px solid #ff4444;
   background: radial-gradient(circle at 40% 35%, #2a0a0a, #1a0606, #0f0303);
@@ -291,7 +299,7 @@
 .btn-label {
   font-family: 'Orbitron', sans-serif;
   font-weight: 900;
-  font-size: clamp(16px, 3vw, 22px);
+  font-size: clamp(12px, 3vw, 22px);
   letter-spacing: 4px;
   text-shadow: 0 0 14px #ff444490;
   z-index: 1;
@@ -427,6 +435,7 @@
 }
 
 .history-table {
+  flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -443,8 +452,8 @@
 }
 
 .table-body {
+  flex: 1;
   overflow-y: auto;
-  max-height: 320px;
 }
 
 .table-body::-webkit-scrollbar {
