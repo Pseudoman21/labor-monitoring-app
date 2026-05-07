@@ -276,10 +276,10 @@ export default function ContractionMonitor() {
               </span>
             )}
             <button className="action-btn export-btn" onClick={handleExport} disabled={log.length === 0} title="Export to file">
-              ↓ EXPORT
+              EXPORT
             </button>
             <button className="action-btn import-btn" onClick={handleImportClick} title="Import from file">
-              ↑ IMPORT
+              IMPORT
             </button>
             {log.length > 0 && (
               <button className="clear-btn" onClick={clearLog}>

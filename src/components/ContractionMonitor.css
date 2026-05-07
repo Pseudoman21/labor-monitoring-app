@@ -88,11 +88,15 @@
 }
 
 .status-tag {
-  font-size: 11px;
+  font-size: 8px;
+  display: flex;
+  margin: auto 0;
   letter-spacing: 2px;
+  text-align: center;
   padding: 4px 10px;
   border-radius: 3px;
   border: 1px solid currentColor;
+  width: 100%;
 }
 
 .status-tag[data-level='normal'] {
@@ -145,7 +149,7 @@
 .clock-display {
   font-family: 'Orbitron', sans-serif;
   font-weight: 900;
-  font-size: clamp(40px, 8vw, 75px);
+  font-size: clamp(33px, 6vw, 75px);
   letter-spacing: 6px;
   color: #00ff88;
   text-shadow: 0 0 20px #00ff88aa, 0 0 40px #00ff8840;
