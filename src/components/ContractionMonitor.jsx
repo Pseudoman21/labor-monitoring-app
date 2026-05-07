@@ -339,10 +339,10 @@ export default function ContractionMonitor() {
         )}
       </section>
 
-      <footer className="monitor-footer">
+      {/* <footer className="monitor-footer">
         <span>PATIENT LABOR MONITORING SYSTEM</span>
         <span>v1.0 — DATA STORED LOCALLY</span>
-      </footer>
+      </footer> */}
     </div>
   )
 }
