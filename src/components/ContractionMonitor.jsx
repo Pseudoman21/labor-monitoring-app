@@ -206,7 +206,7 @@ export default function ContractionMonitor() {
 
       {/* ECG lifeline */}
       <section className="ecg-section">
-        <EcgLine color="#00ff88" height={76} />
+        <EcgLine color="#00ff88" height={48} />
       </section>
 
       {/* Main clock */}
