@@ -326,6 +326,75 @@
   color: #00cc6688;
 }
 
+.history-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.import-status {
+  font-size: 10px;
+  letter-spacing: 2px;
+  padding: 3px 8px;
+  border-radius: 2px;
+  animation: fadeIn 0.2s ease;
+}
+
+.import-status[data-status='ok'] {
+  color: #00ff88;
+  background: #00ff8815;
+  border: 1px solid #00ff8840;
+}
+
+.import-status[data-status='error'] {
+  color: #ff4444;
+  background: #ff444415;
+  border: 1px solid #ff444440;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.action-btn {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  background: transparent;
+  padding: 4px 10px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.action-btn:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+.export-btn {
+  color: #00cc6688;
+  border: 1px solid #00cc6633;
+}
+
+.export-btn:hover:not(:disabled) {
+  color: #00ff88;
+  border-color: #00ff8866;
+  background: #00ff8810;
+}
+
+.import-btn {
+  color: #66aaff88;
+  border: 1px solid #66aaff33;
+}
+
+.import-btn:hover {
+  color: #88ccff;
+  border-color: #66aaff66;
+  background: #66aaff10;
+}
+
 .clear-btn {
   font-family: 'Share Tech Mono', monospace;
   font-size: 10px;

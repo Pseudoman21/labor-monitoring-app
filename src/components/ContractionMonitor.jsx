@@ -1,6 +1,35 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import './ContractionMonitor.css'
 
+function exportLog(log) {
+  const payload = JSON.stringify(log, null, 2)
+  const blob = new Blob([payload], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  const ts = new Date()
+  const stamp = `${ts.getFullYear()}-${String(ts.getMonth() + 1).padStart(2, '0')}-${String(ts.getDate()).padStart(2, '0')}_${String(ts.getHours()).padStart(2, '0')}-${String(ts.getMinutes()).padStart(2, '0')}`
+  a.href = url
+  a.download = `contractions_${stamp}.json`
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
+function recomputeIntervals(sorted) {
+  // sorted: newest first. interval = gap from previous (older) entry
+  return sorted.map((entry, i) => ({
+    ...entry,
+    interval: i === sorted.length - 1 ? null : entry.timestamp - sorted[i + 1].timestamp,
+  }))
+}
+
+function mergeAndParse(existing, imported) {
+  const parsed = imported.map((e) => ({ ...e, timestamp: new Date(e.timestamp) }))
+  const byId = new Map(existing.map((e) => [e.id, e]))
+  for (const e of parsed) byId.set(e.id, e)
+  const merged = Array.from(byId.values()).sort((a, b) => b.timestamp - a.timestamp)
+  return recomputeIntervals(merged)
+}
+
 const STORAGE_KEY = 'contraction_log'
 
 function formatTime(date) {
@@ -59,7 +88,10 @@ export default function ContractionMonitor() {
   const [now, setNow] = useState(new Date())
   const [flash, setFlash] = useState(false)
   const [sinceLastSec, setSinceLastSec] = useState(null)
+  const [importStatus, setImportStatus] = useState(null) // 'ok' | 'error'
   const flashTimer = useRef(null)
+  const importStatusTimer = useRef(null)
+  const importInputRef = useRef(null)
 
   // Clock tick
   useEffect(() => {
@@ -101,6 +133,36 @@ export default function ContractionMonitor() {
       setLog([])
       localStorage.removeItem(STORAGE_KEY)
     }
+  }, [])
+
+  const handleExport = useCallback(() => exportLog(log), [log])
+
+  const handleImportClick = useCallback(() => {
+    importInputRef.current?.click()
+  }, [])
+
+  const handleImportFile = useCallback((e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = (ev) => {
+      try {
+        const imported = JSON.parse(ev.target.result)
+        if (!Array.isArray(imported)) throw new Error('Invalid format')
+        setLog((prev) => {
+          const next = mergeAndParse(prev, imported)
+          saveLog(next)
+          return next
+        })
+        setImportStatus('ok')
+      } catch {
+        setImportStatus('error')
+      }
+      clearTimeout(importStatusTimer.current)
+      importStatusTimer.current = setTimeout(() => setImportStatus(null), 3000)
+    }
+    reader.readAsText(file)
+    e.target.value = ''
   }, [])
 
   const lastInterval = log.length >= 2 ? log[0].interval : null
@@ -207,12 +269,32 @@ export default function ContractionMonitor() {
       <section className="history-panel">
         <div className="history-header">
           <span className="history-title">CONTRACTION LOG</span>
-          {log.length > 0 && (
-            <button className="clear-btn" onClick={clearLog}>
-              CLEAR ALL
+          <div className="history-actions">
+            {importStatus && (
+              <span className="import-status" data-status={importStatus}>
+                {importStatus === 'ok' ? '✓ IMPORTED' : '✗ INVALID FILE'}
+              </span>
+            )}
+            <button className="action-btn export-btn" onClick={handleExport} disabled={log.length === 0} title="Export to file">
+              ↓ EXPORT
             </button>
-          )}
+            <button className="action-btn import-btn" onClick={handleImportClick} title="Import from file">
+              ↑ IMPORT
+            </button>
+            {log.length > 0 && (
+              <button className="clear-btn" onClick={clearLog}>
+                CLEAR
+              </button>
+            )}
+          </div>
         </div>
+        <input
+          ref={importInputRef}
+          type="file"
+          accept=".json,application/json"
+          style={{ display: 'none' }}
+          onChange={handleImportFile}
+        />
 
         {log.length === 0 ? (
           <div className="history-empty">
